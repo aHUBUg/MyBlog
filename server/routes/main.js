@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
+const { Faq, Ans } = require('../models/Faq');
 
 /**
  * GET /
@@ -26,10 +27,13 @@ router.get('', async (req, res) => {
     const count = await Post.countDocuments({});
     const nextPage = parseInt(page) + 1;
     const hasNextPage = nextPage <= Math.ceil(count / perPage);
+    
+    const faqs = await Faq.find(); 
 
     res.render('index', { 
       locals,
       data,
+      faqs,
       current: page,
       nextPage: hasNextPage ? nextPage : null,
       currentRoute: '/'
