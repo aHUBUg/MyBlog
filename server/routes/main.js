@@ -387,6 +387,7 @@ router.get('/service/:id', async (req, res) => {
     const popularPosts = await fetchPopularPosts();
     const service = await Service.findById(req.params.id);
     const faqs = await Faq.find();
+    const topics = await Topic.find();
     const locals = {
       title: service.title,
       description: service.preview,
@@ -395,6 +396,7 @@ router.get('/service/:id', async (req, res) => {
       res.render('service', { 
         locals,
         service, 
+        topics,
         popularPosts,
         currentRoute: 'service',
         currentUser: res.locals.currentUser,
