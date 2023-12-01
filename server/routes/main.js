@@ -17,10 +17,9 @@ router.get('', async (req, res) => {
     let page = req.query.page || 1;
 
     const data = await Post.aggregate([ { $sort: { createdAt: -1 } } ])
-    .maxTimeMS(30000)
     .skip(perPage * page - perPage)
     .limit(perPage)
-    .exec();
+    .exec({ maxTimeMS: 30000 });
 
     // Count is deprecated - please use countDocuments
     // const count = await Post.count();
