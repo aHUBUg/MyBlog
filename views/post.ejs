@@ -118,7 +118,17 @@
             <!-- Sidebar -->
             <div class="sidebar single">
 
-                
+                <div class="section popular">
+                  <h2 class="section-title">Popular Posts</h2>
+                  <div class="">
+                    <% popularPosts.forEach(popularPost => { %>
+                      <div class="post">
+                        
+                        <a href="/post/<%= popularPost._id %>" class="title clearfix"><h4><%= popularPost.title %></h4></a>
+                      </div>
+                    <% }) %>
+                  </div>
+                </div>
               
                 <div class="section topics">
                   <h2 class="section-title">Topics</h2>
