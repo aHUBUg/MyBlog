@@ -1,0 +1,49 @@
+
+<div class="page-wrapper">
+
+    <section class="home">
+        <div class="home-content">
+            <h3>Hello, It's Me</h3>
+            <h1>Noah</h1>
+            <h3>And I'm a <span class="multiple-text"></span></h3>
+            <p> Freelance Web Developer skilled in creating captivating blog, brochure, and portfolio websites with expertise in HTML, CSS, JavaScript and also a passionate Environmental Specialist</p>
+            <div class="social-media">
+                <a href="https://www.facebook.com/asio.noah" target="_blank"><i class='bx bxl-facebook'></i></a>
+                <a href="https://twitter.com/asizynoah" target="_blank"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.youtube.com/channel/UCPr4eONoW3N1JmlwC82buzA" target="_blank"><i class='bx bxl-youtube'></i></a>
+                <a href="https://www.linkedin.com/in/asiomizu-noah-19b91127a" target="_blank"><i class='bx bxl-linkedin'></i></a>
+            </div>
+            <a href="mailto:asiomizunoah@gmail.com?subject=I%20want%20to%20hire%20you" class="btn">Hire Me</a>
+
+        </div>
+        <div class="home-img">
+            <img src="/img/Home.png" alt="My photo">
+        </div>
+
+    </section>
+
+            <section class="portfolio">
+                <h2 class="recent-post-title">Latest <span>Project</span></h2>
+                <div class="portfolio-container">
+                    
+                        <% if (projects.length === 0) { %>
+                            <p>No projects available at the moment.</p>
+                        <% } else { %>
+                            <% projects.forEach(function(project) { %>
+                                <div class="portfolio-box">
+
+                                    <img src="data:<%= project.image.contentType %>;base64,<%= project.image.data.toString('base64') %>" alt="<%= project.title %>" width="600" height="350">
+
+                                    <div class="portfolio-layer">
+                                        <h4><%= project.title %></h4>
+                                        <p><%= project.preview %></p>
+                                        <a href="/project/<%= project._id %>"><i class='bx bx-link-external'></i></a>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } %>
+
+                </div>
+            </section>
+    
+    </div>
