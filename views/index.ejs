@@ -18,21 +18,6 @@
         </li>
       <% }) %>
     </ul>
-
-
-      <% data.forEach(post { %>
-          
-        <div class="post">
-          <div class="post-preview">
-            <h1><a href="/post/<%= post._id %>"><%= post.title %></a></h1>
-            
-            <i class='bx bxs-user'>Asizy</i>
-            <i class='bx bxs-calendar'><%= post.createdAt %></i>
-            <p class="preiew-text"><%= post.preview %>.</p>
-            <a href="/post/<%= post._id %>" class="btn read-more">Read More</a>
-          </div>
-        </div>
-      <% }); %>
   
   
     <% if (nextPage !== null) { %>
