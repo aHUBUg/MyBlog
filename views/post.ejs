@@ -116,7 +116,20 @@
             <!-- Main content -->
 
             <!-- Sidebar -->
-           
+            <div class="sidebar single">
+
+                
+              
+                <div class="section topics">
+                  <h2 class="section-title">Topics</h2>
+                    <ul>
+                      <% topics.forEach(topic => { %>
+                        <li><a href="/topic/<%= topic._id %>"><%= topic.name %></a></li>
+                      <% }) %>
+                    </ul>
+                </div>
+              
+              </div>
               
 
                 <!-- Sidebar -->
