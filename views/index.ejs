@@ -1,97 +1,32 @@
-<div class="page-wrapper">
+<div class="author">
+    <h1 class="author__heading">Hi, I am Raddy.</h1>
+    <p class="author__body">Web developer and content creator.</p>
+  </div>
+  
+  <img src="/img/hero-image.webp" alt="person looking out through window" class="hero-image" width="981" height="528">
+  
+  <section class="articles">
+    <h2 class="articles__heading">Latest Posts</h2>
+  
+    <ul class="article-ul">
+      <% data.forEach(post => { %>
+        <li>
+          <a href="/post/<%= post._id %>">
+            <span><%= post.title %></span>
+            <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  
+  
+    <% if (nextPage !== null) { %>
+      <a href="/?page=<%= nextPage %>" class="pagination">&lt; View Older Posts</a>
+    <% } %>
+   
+  
     
-  <div class="main-content-container">
-
-      <!-- Post slider -->
-      <div class="post-slider">
-          <h1 class="slider-title">Trendidng <span>Posts</span></h1>
-          <i class='bx bx-chevron-left prev'></i>
-          <i class='bx bx-chevron-right next'></i>
-
-          <div class="post-wrapper">
-                  <% popularPosts.forEach(function(popularPost) { %>
-              <div class="post">
-                  <% if (popularPost.image && popularPost.image.data) { %>
-                      <div class="slider-image">
-                          <img src="data:<%= popularPost.image.contentType %>;base64, <%= popularPost.image.data.toString('base64') %>" alt="">
-                      </div>
-                  <% } %>
-                  <div class="post-info">
-                      <h1><a href="/post/<%= popularPost._id %>"><%= popularPost.title %></a></h1>
-                      <i class='bx bxs-user'>Asizy</i>
-                      <i class='bx bxs-calendar'><%= popularPost.createdAt %></i>
-                  </div>
-              </div>
-              <% }); %>
-                  
-          </div>
-      </div>
-      <!-- post slider -->
-
-      <!-- Content -->
-      <div class="content clearfix">
-
-      <!-- Main content -->
-      <div class="main-content">
-          <h1 class="recent-post-title">Recent <span>Posts</span> </h1>
-
-          <% if (data.length > 0) { %>
-
-              <% data.forEach(function(post) { %>
-                  
-                <div class="post">
-                  <% if (post.image && post.image.data) { %>
-                      <div class="post-image">
-                          <img src="data:<%= post.image.contentType %>;base64, <%= post.image.data.toString('base64') %>" alt="" class="">
-                      </div>
-                  <% } %>
-                  <div class="post-preview">
-                    <h1><a href="/post/<%= post._id %>"><%= post.title %></a></h1>
-                    
-                    <i class='bx bxs-user'>Asizy</i>
-                    <i class='bx bxs-calendar'><%= post.createdAt %></i>
-                    <p class="preiew-text"><%= post.preview %>.</p>
-                    <a href="/post/<%= post._id %>" class="btn read-more">Read More</a>
-                  </div>
-                </div>
-              <% }); %>
-            <% } %>
-
-          <% if (nextPage !== null) { %>
-              <div class="btn">
-                  <a href="/?page=<%= nextPage %>">See older</a>
-              </div>
-          <% } %>
-          
-      </div>
-      <div class="sidebar single">
-
-          <div class="section search">
-              <h2 class="section-title">Search</h2>
-              <form action="/search" method="post">
-                  <div class="input-box">
-                      <input type="search" name="searchTerm" class="input-text" placeholder="Search.." id="searchInput">
-                  </div>
-              </form>
-          </div>
   
-          <div class="section topics">
-              <h2 class="section-title">Topics</h2>
-              <% if (topics.length > 0) { %>
-                  <ul>
-                      <% topics.forEach(function(topic) { %>
-                          <li><a href="/topic/<%= topic._id %>"><%= topic.name %></a></li>
-                      <% }); %>
-                  </ul>
-              <% } else { %>
-                  <p>No topics yet</p>
-              <% } %>
-          </div>
-          
-      </div>
-  </div>
-  <!-- //Content -->
-
-  </div>
   
-</div>
+  
+  </section>
