@@ -18,6 +18,26 @@
         </li>
       <% }) %>
     </ul>
+
+
+      <% data.forEach(function(post) { %>
+          
+        <div class="post">
+          <% if (post.image && post.image.data) { %>
+              <div class="post-image">
+                  <img src="data:<%= post.image.contentType %>;base64, <%= post.image.data.toString('base64') %>" alt="" class="">
+              </div>
+          <% } %>
+          <div class="post-preview">
+            <h1><a href="/post/<%= post._id %>"><%= post.title %></a></h1>
+            
+            <i class='bx bxs-user'>Asizy</i>
+            <i class='bx bxs-calendar'><%= post.createdAt %></i>
+            <p class="preiew-text"><%= post.preview %>.</p>
+            <a href="/post/<%= post._id %>" class="btn read-more">Read More</a>
+          </div>
+        </div>
+      <% }); %>
   
   
     <% if (nextPage !== null) { %>
