@@ -1,8 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const Post = require('../models/Post');
+const { Topic, Post } = require('../models/Post');
+const nodemailer = require('nodemailer');
+const Project = require('../models/Project');
+const Service = require('../models/Service');
 const { Faq, Ans } = require('../models/Faq');
+const Comment = require('../models/Comment');
+const bodyParser = require('body-parser');
 
+const fetchPopularPosts = async () => {
+  try {
+    const popularPosts = await Post.aggregate([
+      { $sort: { views: -1 } }, // Sort by views in descending order
+      { $limit: 7 } // Get the top 4 popular posts
+    ]);
+    return popularPosts;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+// Apply the middlewares to all route
+router.use(bodyParser.urlencoded({ extended: true })); 
 /**
  * GET /
  * HOME
@@ -10,9 +30,14 @@ const { Faq, Ans } = require('../models/Faq');
 router.get('', async (req, res) => {
   try {
     const locals = {
-      title: "NodeJs Blog",
-      description: "Simple Blog created with NodeJs, Express & MongoDb."
+      currentUser: req.user ? req.user.username : null, // Pass the username if logged in, otherwise null
+      title: "aHUB",
+      description: "aHUB website, environmentalist in Uganda, website designer in Uganda, frontend developer in Uganda, ESIA and Environmental Audits"
     }
+    
+    const popularPosts = await fetchPopularPosts();
+    
+    const faqs = await Faq.find(); 
 
     let perPage = 10;
     let page = req.query.page || 1;
@@ -20,23 +45,30 @@ router.get('', async (req, res) => {
     const data = await Post.aggregate([ { $sort: { createdAt: -1 } } ])
     .skip(perPage * page - perPage)
     .limit(perPage)
-    .exec({ maxTimeMS: 30000 });
+    .exec();
 
-    // Count is deprecated - please use countDocuments
-    // const count = await Post.count();
-    const count = await Post.countDocuments({});
+      // Ensure each 'post' object has a properly populated 'image' property
+      for (const post of data) {
+        if (post.image && post.image.data && post.image.contentType) {
+          post.image.data = post.image.data.toString('base64');
+        }
+      }
+
+    const count = await Post.count();
     const nextPage = parseInt(page) + 1;
     const hasNextPage = nextPage <= Math.ceil(count / perPage);
-    
-    const faqs = await Faq.find(); 
+    const topics = await Topic.find();
 
     res.render('index', { 
       locals,
       data,
-      faqs,
+      topics,
+      popularPosts,
       current: page,
       nextPage: hasNextPage ? nextPage : null,
-      currentRoute: '/'
+      currentRoute: '/',
+      currentUser: res.locals.currentUser,
+      faqs
     });
 
   } catch (error) {
@@ -45,22 +77,6 @@ router.get('', async (req, res) => {
 
 });
 
-// router.get('', async (req, res) => {
-//   const locals = {
-//     title: "NodeJs Blog",
-//     description: "Simple Blog created with NodeJs, Express & MongoDb."
-//   }
-
-//   try {
-//     const data = await Post.find();
-//     res.render('index', { locals, data });
-//   } catch (error) {
-//     console.log(error);
-//   }
-
-// });
-
-
 /**
  * GET /
  * Post :id
@@ -68,23 +84,66 @@ router.get('', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   try {
     let slug = req.params.id;
-
     const data = await Post.findById({ _id: slug });
+
+    const popularPosts = await fetchPopularPosts();
+    const topics = await Topic.find();
+    
+    const postId = req.params.id;
+    const comments = await Comment.find({ post: postId }).populate('comment');
+    const faqs = await Faq.find();
 
     const locals = {
       title: data.title,
-      description: "Simple Blog created with NodeJs, Express & MongoDb.",
+      description:  data.preview
     }
 
     res.render('post', { 
       locals,
+      topics,
       data,
-      currentRoute: `/post/${slug}`
+      comments,
+      popularPosts,
+      currentRoute: `/post/${slug}`,
+      currentUser: res.locals.currentUser,
+      currentUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
+      faqs
     });
   } catch (error) {
     console.log(error);
   }
 
+});
+
+/**
+ * POST/
+ * Commments
+*/
+router.post('/post/:id/add-comment', async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const parentCommentId = req.body.parentCommentId; // If it's a reply
+
+    // Extract the visitor's name and email from the request body
+    const { name, email } = req.body;
+
+    // Create a new Comment document
+    const comment = new Comment({
+      comment: req.body.comment,
+      author: { name, email }, // Store the visitor's name and email
+      post: postId,
+      parentId: parentCommentId, // If it's a reply, store the parent comment's _id
+    });
+
+    await comment.save();
+
+    // Redirect back to the post after the comment is added
+    res.redirect(`/post/${postId}`);
+  } catch (error) {
+    console.error(error);
+    // Handle error response
+    res.status(500).json({ error: 'First server error' });
+  }
 });
 
 
@@ -94,14 +153,15 @@ router.get('/post/:id', async (req, res) => {
 */
 router.post('/search', async (req, res) => {
   try {
+    let searchTerm = req.body.searchTerm;
     const locals = {
-      title: "Seach",
-      description: "Simple Blog created with NodeJs, Express & MongoDb."
+      title: searchTerm,
     }
 
-    let searchTerm = req.body.searchTerm;
+    const topics = await Topic.find();
     const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "")
 
+    const popularPosts = await fetchPopularPosts();
     const data = await Post.find({
       $or: [
         { title: { $regex: new RegExp(searchNoSpecialChar, 'i') }},
@@ -111,8 +171,11 @@ router.post('/search', async (req, res) => {
 
     res.render("search", {
       data,
+      topics,
       locals,
-      currentRoute: '/'
+      popularPosts,
+      currentRoute: 'search',
+      currentUser: res.locals.currentUser
     });
 
   } catch (error) {
@@ -121,64 +184,227 @@ router.post('/search', async (req, res) => {
 
 });
 
+/**
+ * GET /
+ * faqs
+*/
+router.get('/faqs/:id', async (req, res) => {
+  try {
+
+    let slug = req.params.id;
+    const faq = await Faq.findById({ _id: slug });
+
+    const faqId = req.params.id;
+    const comments = await Comment.find({ post: faqId }).populate('comment');
+    
+    const faqs = await Faq.find(); 
+    const popularPosts = await fetchPopularPosts();
+    const topics = await Topic.find();
+
+    const locals = {
+      title: faq.qstn,
+      description:  faq.description
+    }
+    res.render('faqs', { 
+      faq,
+      faqs,
+      topics,
+      popularPosts,
+      comments,
+      locals,
+      currentRoute: `/faq/${slug}`,
+     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('second Server Error');
+  }
+});
+
+/**
+ * GET /
+ * Topics
+*/
+router.get('/topic/:topicId', async (req, res) => {
+  try {
+    
+    const topicId = req.params.topicId;
+    const posts = await Post.find({ topic: topicId }).sort({ createdAt: 'desc' }).populate('topic');
+    const popularPosts = await fetchPopularPosts();
+    const topics = await Topic.find();
+    const topic = await Topic.find();
+    const faqs = await Faq.find();
+    const locals = {
+      title:topic.name
+    }
+
+    res.render('topic', { 
+      currentRoute: 'topic',
+      posts,
+      locals,
+      topic,
+      topics,
+      popularPosts,
+      faqs
+     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred.');
+  }
+});
+
+
+
+// insertPostData();
+// Configure Nodemailer
+
+
+// Handle form submission
+router.post('/send-email', async (req, res) => {
+    const { email, message } = req.body;
+
+    // Create a nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+          user: 'asiomizunoah@gmail.com',
+          pass: 'sjkk bqkf pedt utvb'
+      }
+    });
+
+    // Email options
+    const mailOptions = {
+        from: email,
+        to: 'asiomizunoah@gmail.com',  // Your email
+        subject: 'New Contact Form Submission',
+        text: `Email: ${email}\nMessage: ${message}`
+    };
+
+    try {
+        // Send the email
+        await transporter.sendMail(mailOptions);
+        req.flash('success', 'Email sent successfully');
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error sending email');
+    }
+});
+
 
 /**
  * GET /
  * About
 */
-router.get('/about', (req, res) => {
-  res.render('about', {
-    currentRoute: '/about'
+router.get('/about', async (req, res) => {
+
+  try {
+    const projects = await Project.find(); // Fetch all projects from the database
+    const faqs = await Faq.find();
+
+    const locals = {
+      title: 'About',
+      description: 'Your about page description'// Pass the projects data to the template
+    };
+
+    res.render('about', {
+      currentRoute: '/about',
+      currentUser: res.locals.currentUser,
+      locals,
+      projects,
+      faqs
+    }); // Render the about.ejs template with projects data
+  } catch (error) {
+    console.error(error);
+    // Handle error response
+    res.status(500).json({ error: 'Third  server error' });
+  }
+  
+});
+
+/**
+ * GET /
+ * single project
+*/
+router.get('/project/:id', async (req, res) => {
+  try {
+    const popularPosts = await fetchPopularPosts();
+      const project = await Project.findById(req.params.id);
+      const locals = {
+        title: project.title,
+        description: project.preview,
+      }
+      const topics = await Topic.find();
+      const faqs = await Faq.find();
+
+      res.render('project', { 
+        locals,
+        topics,
+        project, 
+        popularPosts,
+        currentRoute: 'project',
+        currentUser: res.locals.currentUser,
+        faqs
+
+   }); // Render the project.ejs template and pass the project data
+  } catch (error) {
+      console.log(error); // or handle as you prefer
+  }
+});
+
+/**
+ * GET /
+ * Services
+*/
+router.get('/services', async(req, res) => {
+
+  const services = await Service.find(); 
+  const projects = await Project.find();
+  const topics = await Topic.find();
+  const faqs = await Faq.find();
+  const locals = {
+    title: 'Services',
+    description: 'Your about page description'// Pass the topics data to the template
+  };
+  
+  res.render('services', {
+    currentRoute: '/services',
+    currentUser: res.locals.currentUser,
+    services,
+    topics,
+    projects,
+    locals,
+    faqs
   });
 });
 
+/**
+ * GET /
+ * single service
+*/
+router.get('/service/:id', async (req, res) => {
+  try {
 
-// function insertPostData () {
-//   Post.insertMany([
-//     {
-//       title: "Building APIs with Node.js",
-//       body: "Learn how to use Node.js to build RESTful APIs using frameworks like Express.js"
-//     },
-//     {
-//       title: "Deployment of Node.js applications",
-//       body: "Understand the different ways to deploy your Node.js applications, including on-premises, cloud, and container environments..."
-//     },
-//     {
-//       title: "Authentication and Authorization in Node.js",
-//       body: "Learn how to add authentication and authorization to your Node.js web applications using Passport.js or other authentication libraries."
-//     },
-//     {
-//       title: "Understand how to work with MongoDB and Mongoose",
-//       body: "Understand how to work with MongoDB and Mongoose, an Object Data Modeling (ODM) library, in Node.js applications."
-//     },
-//     {
-//       title: "build real-time, event-driven applications in Node.js",
-//       body: "Socket.io: Learn how to use Socket.io to build real-time, event-driven applications in Node.js."
-//     },
-//     {
-//       title: "Discover how to use Express.js",
-//       body: "Discover how to use Express.js, a popular Node.js web framework, to build web applications."
-//     },
-//     {
-//       title: "Asynchronous Programming with Node.js",
-//       body: "Asynchronous Programming with Node.js: Explore the asynchronous nature of Node.js and how it allows for non-blocking I/O operations."
-//     },
-//     {
-//       title: "Learn the basics of Node.js and its architecture",
-//       body: "Learn the basics of Node.js and its architecture, how it works, and why it is popular among developers."
-//     },
-//     {
-//       title: "NodeJs Limiting Network Traffic",
-//       body: "Learn how to limit netowrk traffic."
-//     },
-//     {
-//       title: "Learn Morgan - HTTP Request logger for NodeJs",
-//       body: "Learn Morgan."
-//     },
-//   ])
-// }
+    const popularPosts = await fetchPopularPosts();
+    const service = await Service.findById(req.params.id);
+    const faqs = await Faq.find();
+    const locals = {
+      title: service.title,
+      description: service.preview,
+    }
 
-// insertPostData();
+      res.render('service', { 
+        locals,
+        service, 
+        popularPosts,
+        currentRoute: 'service',
+        currentUser: res.locals.currentUser,
+        faqs
+   }); // Render the service.ejs template and pass the service data
+  } catch (error) {
+      console.log(error);
+  }
+});
+
 
 
 module.exports = router;

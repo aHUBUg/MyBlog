@@ -24,11 +24,6 @@
         <div class="footer-section contact-form">
             <h2>Contact us</h2>
             <br>
-            <% if(messages.success){ %>
-                <ul class="alert">
-                    <li><%= messages.success %></li>
-                </ul>
-                <% } %>
             <form action="/send-email" method="post">
                 <div class="input-box">
                     <input type="email" name="email" placeholder="Your email address....">
