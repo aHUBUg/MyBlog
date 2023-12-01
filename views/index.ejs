@@ -7,11 +7,6 @@
     <div class="post-wrapper">
       <% popularPosts.forEach(popularPost => { %>
         <div class="post">
-          <% if (popularPost.image && popularPost.image.data) { %>
-            <div class="slider-image">
-              <img src="data:<%= popularPost.image.contentType %>;base64, <%= popularPost.image.data.toString('base64') %>" alt="">
-            </div>
-          <% } %>
           <div class="post-info">
             <h1><a href="/post/<%= popularPost._id %>"><%= popularPost.title %></a></h1>
             <i class='bx bxs-user'>Asizy</i>
