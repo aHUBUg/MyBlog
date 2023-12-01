@@ -121,7 +121,10 @@
                 <% popularPosts.forEach(popularPost => { %>
                     <div class="post">
                       <% if (popularPost.image && popularPost.image.data) { %>
-                        <img src="data:<%= popularPost.image.contentType %>;base64, <%= popularPost.image.data.toString('base64') %>" alt="">
+                        <%= (popularPost.image && popularPost.image.data) ? 
+                        `<img src="data:${popularPost.image.contentType};base64, ${popularPost.image.data.toString('base64')}" alt="">` 
+                        : '' 
+                      %>
                       <% } %>
                       <a href="/post/<%= popularPost._id %>" class="title clearfix"><h4><%= popularPost.title %></h4></a>
                     </div>
