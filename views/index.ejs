@@ -3,29 +3,7 @@
   <div class="main-content-container">
 
       <!-- Post slider -->
-      <div class="post-slider">
-          <h1 class="slider-title">Trendidng <span>Posts</span></h1>
-          <i class='bx bx-chevron-left prev'></i>
-          <i class='bx bx-chevron-right next'></i>
-
-          <div class="post-wrapper">
-                  <% popularPosts.forEach(function(popularPost) { %>
-              <div class="post">
-                  <% if (popularPost.image && popularPost.image.data) { %>
-                      <div class="slider-image">
-                          <img src="data:<%= popularPost.image.contentType %>;base64, <%= popularPost.image.data.toString('base64') %>" alt="">
-                      </div>
-                  <% } %>
-                  <div class="post-info">
-                      <h1><a href="/post/<%= popularPost._id %>"><%= popularPost.title %></a></h1>
-                      <i class='bx bxs-user'>Asizy</i>
-                      <i class='bx bxs-calendar'><%= popularPost.createdAt %></i>
-                  </div>
-              </div>
-              <% }); %>
-                  
-          </div>
-      </div>
+      
       <!-- post slider -->
 
       <!-- Content -->
