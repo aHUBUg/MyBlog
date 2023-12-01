@@ -20,14 +20,9 @@
     </ul>
 
 
-      <% data.forEach(function(post) { %>
+      <% data.forEach(post { %>
           
         <div class="post">
-          <% if (post.image && post.image.data) { %>
-              <div class="post-image">
-                  <img src="data:<%= post.image.contentType %>;base64, <%= post.image.data.toString('base64') %>" alt="" class="">
-              </div>
-          <% } %>
           <div class="post-preview">
             <h1><a href="/post/<%= post._id %>"><%= post.title %></a></h1>
             
