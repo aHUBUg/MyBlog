@@ -1,25 +1,46 @@
+<div id="top"></div>
 <header class="header">
-    <a href="/" class="header__logo">Admin Panel</a>
-  
-    <nav class="header__nav">
-      <ul>
-        <li>
-          <a href="/" class="">Home</a>
-        </li>
-        <li>
-          <a href="/about" class="">About</a>
-        </li>
-        <li>
-          <a href="/contact" class="">Contact</a>
-        </li>
-      </ul>
-  
-    </nav>
-  
-    <div class="header__button">
-      <a href="/logout">
-        Logout
-      </a>
+    
+    <div class="nav">
+
+        <div class="logo">
+            <p>aHUB</p>
+        </div>
+     
+        <div class="menu-container">
+
+            <div class="nav-mode">
+                <a id="toggleDark"><i class="bx bx-moon Theme-icon"></i></a>
+            </div>
+
+            <% if (currentPage === 'login') { %>
+                <div class=" ">
+                    <a href="register">
+                        <button class="logout_btn btn">
+                            Sign Up
+                        </button>
+                    </a>
+                </div>
+            <% } else if (currentPage === 'register') { %>
+                <div class=" ">
+                    <a href="login">
+                        <button class="logout_btn btn">
+                            Sign In
+                        </button>
+                    </a>
+                </div>
+            <% } else if (currentPage === 'dashboard' || currentPage === 'add-post' || currentPage === 'add-project'|| currentPage === 'add-service'|| currentPage === 'create-user'|| currentPage === 'edit-post'|| currentPage === 'edit-project'|| currentPage === 'edit-service'|| currentPage === 'edit-user'|| currentPage === 'latest-projects'|| currentPage === 'my-services'|| currentPage === 'users') { %>
+                <div class=" ">
+                    <a href="/logout">
+                        <button class="logout_btn btn">
+                            Sign Out
+                        </button>
+                    </a>
+                </div>
+            <% } %>
+
+        </div>
+
     </div>
-  
-  </header>
+
+</header>
