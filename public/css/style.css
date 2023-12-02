@@ -383,6 +383,7 @@ p {
 
 .post-slider .post-wrapper .post .post-info h1 {
   text-align: center;
+  color: var(--MAIN-COLOR);
 }
 
 .post-slider .post-wrapper .post .post-info p {
