@@ -379,6 +379,9 @@ p {
 
 .post-slider .post-wrapper .post .post-info a {
   font-size: 1.4rem;
+}
+
+.post-slider .post-wrapper .post .post-info h1 {
   text-align: center;
 }
 
