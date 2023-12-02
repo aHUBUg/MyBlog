@@ -41,18 +41,22 @@
             <div class="section popular">
                 <h2 class="section-title">Popular Posts</h2>
 
-                <div class="">
-                    <% popularPosts.forEach(function(popularPost) { %>
-                        <div class="post">
-                            <% if (popularPost.image && popularPost.image.data) { %>
-                                <img src="data:<%= popularPost.image.contentType %>;base64, <%= popularPost.image.data.toString('base64') %>" alt="" >
-                            <% } %>
-                            <a href="/post/<%= popularPost._id %>" class="title clearfix"><h4><%= popularPost.title %></h4></a>
-                        </div>
-                    <% }); %>
-                </div>
+                <% popularPosts.forEach(popularPost => { %>
+                    <div class="post">
+                      <a href="/post/<%= popularPost._id %>" class="title clearfix"><h4><%= popularPost.title %></h4></a>
+                    </div>
+                  <% }) %>
                 
             </div>
+
+            <div class="section topics">
+                <h2 class="section-title">Topics</h2>
+                  <ul>
+                    <% topics.forEach(topic => { %>
+                      <li><a href="/topic/<%= topic._id %>"><%= topic.name %></a></li>
+                    <% }) %>
+                  </ul>
+              </div>
         </div>
 
     </div>
