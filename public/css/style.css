@@ -379,7 +379,6 @@ p {
 
 .post-slider .post-wrapper .post .post-info a {
   font-size: 1.4rem;
-  color: var(--MAIN-COLOR);
 }
 
 .post-slider .post-wrapper .post .post-info h1 {
@@ -443,8 +442,6 @@ p {
 .content .main-content .post .post-preview {
   width: 68%;
   padding: 0.5em;
-  display: flex;
-  flex-flow: column nowrap;
 }
 
 .content .main-content .post .post-preview h1 a {
