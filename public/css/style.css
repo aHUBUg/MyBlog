@@ -379,11 +379,11 @@ p {
 
 .post-slider .post-wrapper .post .post-info a {
   font-size: 1.4rem;
+  color: var(--MAIN-COLOR);
 }
 
 .post-slider .post-wrapper .post .post-info h1 {
   text-align: center;
-  color: var(--MAIN-COLOR);
 }
 
 .post-slider .post-wrapper .post .post-info p {
