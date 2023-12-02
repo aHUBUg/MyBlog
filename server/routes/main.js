@@ -158,6 +158,7 @@ router.post('/search', async (req, res) => {
       title: searchTerm,
     }
 
+    const faqs = await Faq.find();
     const topics = await Topic.find();
     const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "")
 
@@ -172,6 +173,7 @@ router.post('/search', async (req, res) => {
     res.render("search", {
       data,
       topics,
+      faqs,
       locals,
       popularPosts,
       currentRoute: 'search',
