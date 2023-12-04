@@ -347,6 +347,7 @@ p {
 
 .post-slider .post-wrapper .post {
   padding: 0.5em;
+  border: 1px solid var(--MAIN-COLOR);
 }
 
 .post-slider .post-wrapper .post .slider-image {
@@ -365,11 +366,11 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  max-height: 140px;
+  max-height: 200px;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -422,7 +423,6 @@ p {
   width: 100%;
   max-height: 250px;
   margin: 10px auto;
-  border: 1px solid var(--MAIN-COLOR);
   border-radius: 5px;
   background: var(--SECOND-MAIN-COLOR);
   box-shadow: 2rem 2rem 2rem -2rem #000;
