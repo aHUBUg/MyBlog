@@ -317,6 +317,8 @@ p {
   background: var(--SECOND-MAIN-COLOR);
   box-shadow: 2rem 2rem 2rem -2rem var(--SECOND-MAIN-COLOR);
   border-radius: 7px;
+  padding: 0.5em;
+  border: 1px solid var(--MAIN-COLOR);
 }
 
 .post-slider .slider-title {
@@ -345,11 +347,6 @@ p {
   z-index: 100;
 }
 
-.post-slider .post-wrapper .post {
-  padding: 0.5em;
-  border: 1px solid var(--MAIN-COLOR);
-}
-
 .post-slider .post-wrapper .post .slider-image {
   width: 100%;
   height: 180px;
@@ -366,7 +363,7 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  max-height: 200px;
+  max-height: 300px;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
