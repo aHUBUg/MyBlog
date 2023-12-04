@@ -363,12 +363,13 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  max-height: 300px;
+  max-height: 100%;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
   align-items: center;
+  margin: auto 0;
 }
 
 .post-slider .post-wrapper .post .post-info .icons {
