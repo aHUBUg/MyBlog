@@ -14,11 +14,12 @@
               <div class="post">
                 <div class="post-info">
                   <h1><a href="/post/<%= popularPost._id %>"><%= popularPost.title %></a></h1>
-                  <p>
+                  <div class="">
                     <i class='bx bxs-user'>Asizy</i>
                     <i class='bx bxs-calendar'><%= popularPost.createdAt.toDateString()%></i>
-                  </p>
+                  </div>
                   <p class="preiew-text"><%= popularPost.preview %>.</p>
+                  <a href="/post/<%= post._id %>" class="btn read-more">Read More</a>
                 </div>
               </div>
             <% }) %>
@@ -38,11 +39,10 @@
               <div class="post">
                 <div class="post-preview">
                   <h1><a href="/post/<%= post._id %>"><%= post.title %></a></h1>
-                  
-                  
+                  <div class="">
                     <i class='bx bxs-user'>Asizy</i>
-                    <i class='bx bxs-calendar'><%= post.createdAt.toDateString() %></i>
-                
+                    <i class='bx bxs-calendar'><%= popularPost.createdAt.toDateString()%></i>
+                  </div>
                   <p class="preiew-text"><%= post.preview %>.</p>
                   <a href="/post/<%= post._id %>" class="btn read-more">Read More</a>
                 </div>

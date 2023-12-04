@@ -346,7 +346,7 @@ p {
 }
 
 .post-slider .post-wrapper .post {
-  padding: 0.3em;
+  padding: 0.5em;
 }
 
 .post-slider .post-wrapper .post .slider-image {
@@ -365,7 +365,7 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  height: 140px;
+  max-height: 140px;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
@@ -375,6 +375,7 @@ p {
 
 .post-slider .post-wrapper .post .post-info i {
   font-size: 1.1rem;
+  color: var(--MAIN-COLOR);
 }
 
 .post-slider .post-wrapper .post .post-info a {
@@ -450,8 +451,8 @@ p {
 
 .content .main-content .post .post-preview i {
   font-size: 1rem;
-  margin-bottom: 1em;
-  color: var(--TEXT-COLOR);
+  padding: 0.5em 0;
+  color: var(--MAIN-COLOR);
 }
 
 .content .main-content .post .post-preview p {
