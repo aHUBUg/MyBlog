@@ -371,9 +371,10 @@ p {
   align-items: center;
 }
 
-.post-slider .post-wrapper .post .post-info i {
+.post-slider .post-wrapper .post .post-info .icons {
   font-size: 1.1rem;
   color: var(--MAIN-COLOR);
+  padding: 0.5em 0;
 }
 
 .post-slider .post-wrapper .post .post-info a {
