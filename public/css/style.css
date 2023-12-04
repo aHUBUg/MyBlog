@@ -363,13 +363,13 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  max-height: 100%;
+  max-height: 300px;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
   align-items: center;
-  margin: auto 0;
+  margin: auto;
 }
 
 .post-slider .post-wrapper .post .post-info .icons {
@@ -1421,10 +1421,14 @@ form .input-box label {
 
 @media (max-width:480px) {
    html {
-  font-size: 75%;
+  font-size: 85%;
   }
   .footer-section.links {
       border-top: 1px solid var(--SECOND-BG-COLOR);
+  }
+
+  .footer .center {
+    flex-flow: column;
   }
 
   .content .main-content .post {
