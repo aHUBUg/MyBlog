@@ -370,7 +370,7 @@ p {
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
