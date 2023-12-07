@@ -1331,15 +1331,16 @@ form .input-box label {
 }
 
 @media (max-width:768px) {
-  .header .nav ul.navbar {
+  .header .nav ul {
       top: 4em;
       right: 0;
       display: none;
-      width: 100%;
+      width: 80%;
+      height: 100vh;
       background: var(--SECOND-MAIN-COLOR);
       border-bottom: 1px solid var(--MAIN-COLOR);
       border-left: 1px solid var(--MAIN-COLOR);
-      border-bottom-left-radius: 5px
+      border-bottom-left-radius: 5px;
 
   }
 
@@ -1358,6 +1359,7 @@ form .input-box label {
   .nav-links {
       width: 100%;
       text-align: center;
+      margin: 1em;
   }
 
   .nav-links.active {
@@ -1475,6 +1477,10 @@ form .input-box label {
   .content .main-content .post .post-preview {
       width: 100%;
       height: 50%;
+  }
+
+  .content .main-content.single .single-post {
+      width: 100%;
   }
 }
 
