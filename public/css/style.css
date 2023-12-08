@@ -316,7 +316,7 @@ p {
 .post-slider .post-wrapper .post {
   display: inline-block;
   width: 400px;
-  height: 345px;
+  height: 350px;
   margin: 0 1em;
   background: var(--SECOND-MAIN-COLOR);
   box-shadow: 2rem 2rem 2rem -2rem var(--SECOND-MAIN-COLOR);
@@ -373,7 +373,7 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  max-height: 340px;
+  max-height: 346px;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
