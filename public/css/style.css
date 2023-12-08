@@ -316,7 +316,7 @@ p {
 .post-slider .post-wrapper .post {
   display: inline-block;
   width: 400px;
-  min-height: 300px;
+  height: 345px;
   margin: 0 1em;
   background: var(--SECOND-MAIN-COLOR);
   box-shadow: 2rem 2rem 2rem -2rem var(--SECOND-MAIN-COLOR);
@@ -373,7 +373,7 @@ p {
 }
 
 .post-slider .post-wrapper .post .post-info {
-  max-height: 300px;
+  max-height: 340px;
   padding: 0.2em 5px;
   display: flex;
   flex-flow: column nowrap;
@@ -1034,20 +1034,18 @@ form .input-box label {
   color: #fff;
 }
 
-.smedia .button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: grid;
-  place-content: center;
+.footer .contact-links {
+  border: none;
+  color: var(--FOOTER-TEXT-COLOR);
 }
 
-.fa-brands {
-  font-size: 1.5;
-  padding: 20px;
-  margin-bottom: 0.5em;
-  transition: all 0.3s ease-out;
+.footer .contact-links a {
+  transition: all 0.3s ease;
+}
+
+.footer .contact-links a:hover {
+  color: var(--MAIN-COLOR);
+  transform: scale(1.01);
 }
 
 .footer .footer-content {
@@ -1336,11 +1334,12 @@ form .input-box label {
       right: 0;
       display: none;
       width: 80%;
-      height: 100vh;
+      height: 92vh;
       background: var(--SECOND-MAIN-COLOR);
       border-bottom: 1px solid var(--MAIN-COLOR);
       border-left: 1px solid var(--MAIN-COLOR);
       border-bottom-left-radius: 5px;
+      opacity: 96%;
 
   }
 
