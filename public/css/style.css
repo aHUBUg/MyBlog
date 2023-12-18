@@ -567,35 +567,55 @@
     margin: 1em auto;
   }
 
+  .single-post article p {
+    line-height: 2em;
+    margin: 1em 0.7em;
+  }
+
+  .single-post article h1 {
+    font-size: 2.3rem;
+  }
+
+  .single-post article h2 {
+    font-size: 2.1rem;
+    position: relative;
+    margin: 1em 0;
+  }
+  
+  .single-post article h2::after {
+    content: "";
+    display: block;
+    width: 2em; /* Adjust the length of the line as needed */
+    height: 4px; /* Adjust the thickness of the line as needed */
+    background-color: var(--MAIN-COLOR); /* Adjust the color of the line as needed */
+    position: absolute;
+    bottom: -20%;
+    left: 0;
+  }
+  
+
+  .single-post article h3 {
+    font-size: 1.7rem;
+    margin: 1em 0;
+    padding-left: 0.5em;
+  }
+
   /* Style for unordered list */
-.single-post article ul {
-  list-style-type: none;  
+.single-post article ul {  
   font-size: 1rem; 
   margin-left: 2em;
 }
 
 /* Style for list items */
 .single-post article ul li {
-  margin-bottom: 10px; /* Add some space between each list item */
-  position: relative;
-  padding-left: 25px;
+  margin-bottom: 10px; 
+  padding-left: 10px;
+  line-height: 2em;
 }
 
-.single-post article ul li::before {
-  content: ''; /* Required for the pseudo-element */
-  position: absolute;
-  top: 10%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
-  border: 3px solid #3366cc; /* Outer color of the disc */
-  border-radius: 50%; /* Create a circular shape */
-  box-sizing: border-box;
-}
-
-.single-post article ul li:hover::before {
-  background-color: #ff9933; /* Inner color of the disc on hover */
+.single-post article ul li::marker {
+  color: var(--MAIN-COLOR);
+  font-size: 1.5rem;
 }
   
   /* Share buttons */
